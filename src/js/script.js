@@ -37,9 +37,14 @@
     for(let image of booksImage){
       image.addEventListener('dblclick', function(event) {
         event.preventDefault();
-        image.classList.add('favorite');
-        const id = image.getAttribute('data-id');
-        favoriteBooks.push(id);
+
+        if(!image.classList.contains('favorite')){
+          image.classList.add('favorite');
+          const id = image.getAttribute('data-id');
+          favoriteBooks.push(id);
+        } else {
+          image.classList.remove('favorite');
+        }
       });
     }
   }
