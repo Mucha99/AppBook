@@ -1,6 +1,7 @@
 {
   'use strict';
 
+  // Ćwiczenie nr 1.
   const select = {
     templateOf: {
       booksTemplate: '#template-book',
@@ -25,4 +26,23 @@
   }
 
   render();
+
+  // Ćwiczenie nr 2.
+  const favoriteBooks = [];
+
+  function initActions() {
+    const booksContainer = document.querySelector(select.containerOf.booksList);
+    const booksImage = booksContainer.querySelectorAll('.book__image');
+
+    for(let image of booksImage){
+      image.addEventListener('dblclick', function(event) {
+        event.preventDefault();
+        image.classList.add('favorite');
+        const id = image.getAttribute('data-id');
+        favoriteBooks.push(id);
+      });
+    }
+  }
+
+  initActions();
 }
