@@ -20,33 +20,40 @@
     for(let book of dataSource.books) {
       const generatedHTML = templates.booksTemplate(book);
       book.element = utils.createDOMFromHTML(generatedHTML);
-      const bookContainer = document.querySelector(select.containerOf.booksList);
-      bookContainer.appendChild(book.element);
+      const booksContainer = document.querySelector(select.containerOf.booksList);
+      booksContainer.appendChild(book.element);
     }
   }
 
   render();
 
-  // Ćwiczenie nr 2.
+  // Ćwiczenie nr 2
+  // Ćwiczenie nr 3
+  // Ćwiczenie nr 4 -> PROBLEM
   const favoriteBooks = [];
 
   function initActions() {
     const booksContainer = document.querySelector(select.containerOf.booksList);
-    const booksImage = booksContainer.querySelectorAll('.book__image');
 
-    for(let image of booksImage){
-      image.addEventListener('dblclick', function(event) {
-        event.preventDefault();
+    booksContainer.addEventListener('dblclick', function(event) {
+      event.preventDefault();
+      console.log(event.target.offsetParent);
 
-        if(!image.classList.contains('favorite')){
-          image.classList.add('favorite');
-          const id = image.getAttribute('data-id');
+      if(event.target.offsetParent.classList.contains('book__image')){
+
+        const bookImage = event.target.offsetParent;
+        const isFavorite = bookImage.classList.contains('favorite');
+        console.log(isFavorite);
+
+        if(!isFavorite) {
+          bookImage.classList.add('favorite');
+          const id = event.target.getAttribute('data-id');
           favoriteBooks.push(id);
         } else {
-          image.classList.remove('favorite');
+          bookImage.classList.remove('favorite');
         }
-      });
-    }
+      }
+    });
   }
 
   initActions();
