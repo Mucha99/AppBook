@@ -8,6 +8,7 @@
     },
     containerOf: {
       booksList: '.books-list',
+      form: '.filters',
     },
   };
 
@@ -29,11 +30,13 @@
 
   // Ćwiczenie nr 2
   // Ćwiczenie nr 3
-  // Ćwiczenie nr 4 -> PROBLEM
+  // Ćwiczenie nr 4
   const favoriteBooks = [];
+  const filters = [];
 
   function initActions() {
     const booksContainer = document.querySelector(select.containerOf.booksList);
+    const filterContainer = document.querySelector(select.containerOf.form);
 
     booksContainer.addEventListener('dblclick', function(event) {
       event.preventDefault();
@@ -43,7 +46,6 @@
 
         const bookImage = event.target.offsetParent;
         const isFavorite = bookImage.classList.contains('favorite');
-        console.log(isFavorite);
 
         if(!isFavorite) {
           bookImage.classList.add('favorite');
@@ -54,6 +56,47 @@
         }
       }
     });
+
+    filterContainer.addEventListener('change', function(event) {
+      event.preventDefault();
+
+      const clickBox = event.target;
+      if
+      (
+        clickBox.tagName === 'INPUT' &&
+        clickBox.type === 'checkbox' &&
+        clickBox.name === 'filter'
+      ) {
+        if (clickBox.checked === true) {
+          filters.push(clickBox.value);
+          console.log(filters);
+        } else {
+          const indexFilter = filters.indexOf(clickBox.value);
+          filters.splice(indexFilter, 1);
+          console.log(filters);
+        }
+      }
+      filterBooks();
+    });
+  }
+
+  function filterBooks() {
+    for(let elem of dataSource.books) {
+      let shouldBeHidden = false;
+      for(let filter of filters) {
+        if(!elem.details[filter]) {
+          shouldBeHidden = true;
+          break;
+        }
+      }
+      if(shouldBeHidden){
+        const bookCover = document.querySelector('.book__image[data-id="' + elem.id + '"]');
+        bookCover.classList.add('hidden');
+      } else {
+        const bookCover = document.querySelector('.book__image[data-id="' + elem.id + '"]');
+        bookCover.classList.remove('hidden');
+      }
+    }
   }
 
   initActions();
